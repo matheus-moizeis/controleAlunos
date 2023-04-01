@@ -1,4 +1,4 @@
-namespace ControleAlunosMVC.Models
+namespace ControleAlunosMVC.Models.ViewModels
 {
     public class ErrorViewModel
     {
