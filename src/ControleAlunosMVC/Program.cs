@@ -1,3 +1,5 @@
+using ControleAlunosMVC.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -24,4 +26,13 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+UpdateDatabase();
+
 app.Run();
+
+void UpdateDatabase()
+{
+    var connection = builder.Configuration.GetConnectionString("ConnectionDatabase");
+    var nameDatabase = builder.Configuration.GetConnectionString("NameDatabase");
+    Database.CreateDatabase(connection, nameDatabase);
+}
