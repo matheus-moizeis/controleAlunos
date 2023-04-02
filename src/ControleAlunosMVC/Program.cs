@@ -1,6 +1,10 @@
 using ControleAlunosMVC.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ControleAlunosMVCContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("ControleAlunosMVCContext") ?? throw new InvalidOperationException("Connection string 'ControleAlunosMVCContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
