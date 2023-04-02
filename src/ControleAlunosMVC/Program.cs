@@ -7,6 +7,7 @@ builder.Services.AddDbContext<ControleAlunosMVCContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ControleAlunosMVCContext") ?? throw new InvalidOperationException("Connection string 'ControleAlunosMVCContext' not found.")));
 
 builder.Services.AddScoped<StudentService>();
+builder.Services.AddScoped<SubjectsService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

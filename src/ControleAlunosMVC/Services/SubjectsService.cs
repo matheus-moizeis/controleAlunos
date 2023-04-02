@@ -5,55 +5,54 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ControleAlunosMVC.Services
 {
-    public class StudentService
+    public class SubjectsService
     {
         private readonly ControleAlunosMVCContext _context;
 
-        public StudentService(ControleAlunosMVCContext context)
+        public SubjectsService(ControleAlunosMVCContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Student>> FindAllAsync()
+        public async Task<List<Subject>> FindAllAsync()
         {
-            return await _context.Student.ToListAsync();
+            return await _context.Subject.ToListAsync();
         }
 
-        public async Task InsertAsync(Student student)
+        public async Task InsertAsync(Subject subject)
         {
-            _context.Add(student);
+            _context.Add(subject);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Student> FindByIdAsync(int id)
+        public async Task<Subject> FindByIdAsync(int id)
         {
-            return await _context.Student.FirstOrDefaultAsync(obj => obj.Id == id);
+            return await _context.Subject.FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
         public async Task RemoveAsync(int id)
         {
-            var student = await _context.Student.FindAsync(id);
-            _context.Student.Remove(student);
+            var subject = await _context.Subject.FindAsync(id);
+            _context.Subject.Remove(subject);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Student student)
+        public async Task UpdateAsync(Subject subject)
         {
-            bool hasAny = await _context.Student.AnyAsync(x => x.Id == student.Id);
+            bool hasAny = await _context.Subject.AnyAsync(x => x.Id == subject.Id);
 
             if (!hasAny)
             {
-                throw new NotFiniteNumberException("Aluno não encontrado");
+                throw new NotFiniteNumberException("Disciplina não encontrada");
             }
 
             try
             {
-                _context.Update(student);
+                _context.Update(subject);
                 await _context.SaveChangesAsync();
             }
             catch (DbConcurrencyException e)
             {
-
                 throw new DbConcurrencyException(e.Message);
             }
         }
