@@ -1,0 +1,48 @@
+﻿@model ControleAlunosMVC.Models.ViewModels.ScoreFormViewModel
+@{
+    ViewData["Title"] = "Notas";
+}
+
+<div class="text-center">
+    <h2 class="display-6">@ViewData["Title"]</h2>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a asp-action="Create" class="btn btn-light">Adicionar nova Nota </a>
+    </div>
+    <br />
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr class="table-success">
+                <th>
+                    Nome
+                </th>
+                <th>
+                    Nota
+                </th>
+                <th>
+                    Disciplina
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Scores)
+            {
+                <tr>
+                    <td> @Html.DisplayFor(modelItem => item.Student.Name)</td>
+
+                    <td> @Html.DisplayFor(modelItem => item.StudentScore)</td>
+
+                    <td> @Html.DisplayFor(modelItem => item.Subject.Name)</td>
+
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="badge rounded-pill bg-info">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="badge rounded-pill bg-secondary">Detalhes</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="badge rounded-pill bg-danger">Deletar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

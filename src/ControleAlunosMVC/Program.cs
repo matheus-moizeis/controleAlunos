@@ -8,6 +8,7 @@ builder.Services.AddDbContext<ControleAlunosMVCContext>(options =>
 
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<SubjectsService>();
+builder.Services.AddScoped<ScoreService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

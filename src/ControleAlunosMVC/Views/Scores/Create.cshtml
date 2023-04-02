@@ -1,0 +1,39 @@
+﻿@model ControleAlunosMVC.Models.ViewModels.ScoreFormViewModel
+@{
+    ViewData["Title"] = "Criar Nota";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<div class="form-group row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            <div class="form-group">
+                <label asp-for="Score.StudentScore" class="form-label"></label>
+                <input asp-for="Score.StudentScore" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Score.DateScore" class="control-label"></label>
+                <input asp-for="Score.DateScore" class="form-control" />
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Score.StudentId" class="control-label"></label>
+                <select asp-for="Score.StudentId" asp-items="@(new SelectList(Model.Students,"Id","Name"))" class="form-control"></select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Score.SubjectId" class="control-label"></label>
+                <select asp-for="Score.SubjectId" asp-items="@(new SelectList(Model.Subjects,"Id","Name"))" class="form-control"></select>
+            </div>
+
+            <div class="form-group">
+                <br />
+                <input type="submit" value="Criar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+

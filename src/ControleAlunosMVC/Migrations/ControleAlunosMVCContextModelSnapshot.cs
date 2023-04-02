@@ -48,7 +48,7 @@ namespace ControleAlunosMVC.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Score");
+                    b.ToTable("Score", (string)null);
                 });
 
             modelBuilder.Entity("ControleAlunosMVC.Models.Student", b =>
@@ -93,7 +93,7 @@ namespace ControleAlunosMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Student");
+                    b.ToTable("Student", (string)null);
                 });
 
             modelBuilder.Entity("ControleAlunosMVC.Models.StudentSubject", b =>
@@ -108,7 +108,7 @@ namespace ControleAlunosMVC.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("StudentSubject");
+                    b.ToTable("StudentSubject", (string)null);
                 });
 
             modelBuilder.Entity("ControleAlunosMVC.Models.Subject", b =>
@@ -129,7 +129,7 @@ namespace ControleAlunosMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subject");
+                    b.ToTable("Subject", (string)null);
                 });
 
             modelBuilder.Entity("ControleAlunosMVC.Models.Score", b =>

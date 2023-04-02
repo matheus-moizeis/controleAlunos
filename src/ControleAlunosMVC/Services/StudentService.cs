@@ -16,7 +16,7 @@ namespace ControleAlunosMVC.Services
 
         public async Task<List<Student>> FindAllAsync()
         {
-            return await _context.Student.ToListAsync();
+            return await _context.Student.OrderBy(x => x.Name).ToListAsync();
         }
 
         public async Task InsertAsync(Student student)
