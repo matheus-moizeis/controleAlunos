@@ -25,9 +25,9 @@ namespace ControleAlunosMVC.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<StudentSubject> FindByIdAsync(int id)
+        public async Task<StudentSubject> FindByKeyAsync(int studentId, int subjectId)
         {
-            return await _context.StudentSubject.Include(x => x.Student).Include(x => x.Subject).FirstOrDefaultAsync(obj => obj.Id == id);
+            return await _context.StudentSubject.Include(x => x.Student).Include(x => x.Subject).FirstOrDefaultAsync(obj => obj.SubjectId == subjectId && obj.StudentId == studentId);
         }
 
         public async Task RemoveAsync(int id)

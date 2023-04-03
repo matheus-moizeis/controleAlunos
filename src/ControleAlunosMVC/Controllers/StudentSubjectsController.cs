@@ -53,14 +53,14 @@ namespace ControleAlunosMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id, int id2)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
 
-            var obj = await _studantSubjectService.FindByIdAsync(id.Value);
+            var obj = await _studantSubjectService.FindByKeyAsync(id2, id);
 
             if (obj == null)
             {
@@ -78,18 +78,22 @@ namespace ControleAlunosMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id, int id2)
         {
-            if (id == null)
+            if (id == null) 
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
+                return RedirectToAction(nameof(Error), new { message = "Id da matricula não fornecido" });
+            }
+            if (id2 == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id do aluno não fornecido" });
             }
 
-            var obj = await _studantSubjectService.FindByIdAsync(id.Value);
+            var obj = await _studantSubjectService.FindByKeyAsync(id2, id);
 
             if (obj == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
+                return RedirectToAction(nameof(Error), new { message = "Item não encontrado" });
             }
 
             return View(obj);
@@ -97,7 +101,7 @@ namespace ControleAlunosMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, StudentSubject obj)
+        public async Task<IActionResult> Edit(int? id,int? id2, StudentSubject obj)
         {
             if (!ModelState.IsValid)
             {
@@ -106,9 +110,9 @@ namespace ControleAlunosMVC.Controllers
                 var viewModel = new StudentSubjectViewModel { Students = students, Subjects = subjects };
                 return View(viewModel);
             }
-            if (id != obj.Id)
+            if (id2 != obj.StudentId && id != obj.SubjectId) 
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não compatível" });
+                return RedirectToAction(nameof(Error), new { message = "Item não encontrado" });
             }
             try
             {

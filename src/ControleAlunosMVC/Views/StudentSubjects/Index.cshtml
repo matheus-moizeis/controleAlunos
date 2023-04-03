@@ -37,9 +37,9 @@
                     <td> @Html.DisplayFor(modelItem => item.DateStudentSubject)</td>
 
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="badge rounded-pill bg-info">Editar</a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="badge rounded-pill bg-secondary">Detalhes</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="badge rounded-pill bg-danger">Deletar</a>
+                        @*<a asp-action="Edit" asp-route-id="@item.SubjectId" asp-route-id2="@item.StudentId" class="badge rounded-pill bg-info">Editar</a>*@
+                        <a asp-action="Details" asp-route-id="@item.SubjectId" asp-route-id2="@item.StudentId" class="badge rounded-pill bg-secondary">Detalhes</a>
+                       @* <a asp-action="Delete" asp-route-id="@item.SubjectId" asp-route-id2="@item.StudentId" class="badge rounded-pill bg-danger">Deletar</a>*@
                     </td>
                 </tr>
             }

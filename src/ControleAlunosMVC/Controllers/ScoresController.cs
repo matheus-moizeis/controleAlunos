@@ -2,7 +2,9 @@
 using ControleAlunosMVC.Models.ViewModels;
 using ControleAlunosMVC.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ControleAlunosMVC.Controllers
 {
@@ -21,10 +23,13 @@ namespace ControleAlunosMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
+            
             var scoreList = await _scoreService.FindAllAsync();
             var students = await _studentService.FindAllAsync();
             var subjects = await _subjectsService.FindAllAsync();
+
             var viewModel = new ScoreFormViewModel { Scores = scoreList, Students = students, Subjects = subjects };
+
 
             return View(viewModel);
         }
@@ -148,6 +153,24 @@ namespace ControleAlunosMVC.Controllers
                 Message = message,
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             };
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> Student(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
+            }
+
+            var scoreList = await _scoreService.FindAllAsync();
+            var students = await _studentService.FindAllAsync();
+            var subjects = await _subjectsService.FindAllAsync();
+
+            scoreList = scoreList.Where(x => x.StudentId == id).ToList();
+
+            var viewModel = new ScoreFormViewModel { Scores = scoreList, Students = students, Subjects = subjects };
 
             return View(viewModel);
         }

@@ -3,6 +3,7 @@ using ControleAlunosMVC.Models.ViewModels;
 using ControleAlunosMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ControleAlunosMVC.Controllers
 {
@@ -15,9 +16,13 @@ namespace ControleAlunosMVC.Controllers
             _studentService = studentService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string text = "")
         {
             var list = await _studentService.FindAllAsync();
+            if (!string.IsNullOrEmpty(text))
+            {
+                list = list.Where(e => e.Name.Contains(text)).ToList();
+            }
             return View(list);
         }
 
@@ -28,7 +33,7 @@ namespace ControleAlunosMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Student student) 
+        public async Task<IActionResult> Create(Student student)
         {
             if (!ModelState.IsValid)
             {
@@ -42,11 +47,11 @@ namespace ControleAlunosMVC.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new {message = "Id não fornecido"});
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
 
             var obj = await _studentService.FindByIdAsync(id.Value);
-            
+
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
@@ -84,11 +89,11 @@ namespace ControleAlunosMVC.Controllers
         {
             if (id == null)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" }); 
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
             var obj = await _studentService.FindByIdAsync(id.Value);
-            
-            if(obj == null)
+
+            if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
             }
@@ -119,6 +124,11 @@ namespace ControleAlunosMVC.Controllers
             }
         }
 
+        public async Task<IActionResult> Score(int id)
+        {
+            return RedirectToAction("Student", "Scores", new { Id = id });
+        }
+
         public IActionResult Error(string message)
         {
             var viewModel = new ErrorViewModel
@@ -129,5 +139,7 @@ namespace ControleAlunosMVC.Controllers
 
             return View(viewModel);
         }
+
+
     }
 }
