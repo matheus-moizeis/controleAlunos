@@ -111,7 +111,6 @@ namespace ControleAlunosMVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Obersavation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentId", "SubjectId");

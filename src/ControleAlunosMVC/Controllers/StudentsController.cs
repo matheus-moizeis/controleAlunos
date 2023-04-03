@@ -106,7 +106,7 @@ namespace ControleAlunosMVC.Controllers
             }
             if (id != student.Id)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não incompatíveis" });
+                return RedirectToAction(nameof(Error), new { message = "Id não compatível" });
             }
             try
             {

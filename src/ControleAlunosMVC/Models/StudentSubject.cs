@@ -5,6 +5,8 @@ namespace ControleAlunosMVC.Models
 {
     public class StudentSubject : BaseModel
     {
+        public int Id { get; set; }
+
         [Display(Name = "Aluno")]
         public int StudentId { get; set; }
 
@@ -16,7 +18,7 @@ namespace ControleAlunosMVC.Models
         public Subject? Subject { get; set; }
 
         [Display(Name = "Observação")]
-        public string Obersavation { get; set; }
+        public string? Obersavation { get; set; }
 
         [Display(Name = "Data")]
         [DataType(DataType.Date)]

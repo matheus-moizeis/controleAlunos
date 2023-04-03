@@ -6,36 +6,50 @@ using System.Diagnostics;
 
 namespace ControleAlunosMVC.Controllers
 {
-    public class SubjectsController : Controller
+    public class StudentSubjectsController : Controller
     {
+        private readonly StudentService _studentService;
         private readonly SubjectsService _subjectsService;
+        private readonly StudantSubjectService _studantSubjectService;
 
-        public SubjectsController(SubjectsService subjectsService)
+        public StudentSubjectsController(StudentService studentService, SubjectsService subjectsService, StudantSubjectService studantSubjectService)
         {
+            _studentService = studentService;
             _subjectsService = subjectsService;
+            _studantSubjectService = studantSubjectService;
         }
-
 
         public async Task<IActionResult> Index()
         {
-            var list = await _subjectsService.FindAllAsync();
-            return View(list);
+            var studantSubjects = await _studantSubjectService.FindAllAsync();
+            var students = await _studentService.FindAllAsync();
+            var subjects = await _subjectsService.FindAllAsync();
+            var viewModel = new StudentSubjectViewModel { Students = students, StudentSubjects = studantSubjects, Subjects = subjects};
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Create()
         {
-            return View();
+            var studens = await _studentService.FindAllAsync();
+            var subjects = await _subjectsService.FindAllAsync();
+            var viewModel = new StudentSubjectViewModel { Students = studens, Subjects = subjects };
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Subject subject)
+        public async Task<IActionResult> Create(StudentSubject studentSubject)
         {
             if (!ModelState.IsValid)
             {
-                return View(subject);
+                var students = await _studentService.FindAllAsync();
+                var subjects = await _subjectsService.FindAllAsync();
+                var viewModel = new StudentSubjectViewModel { Students = students, Subjects = subjects };
+                return View(viewModel);
             }
-            await _subjectsService.InsertAsync(subject);
+
+            await _studantSubjectService.InsertAsync(studentSubject);
             return RedirectToAction(nameof(Index));
         }
 
@@ -46,7 +60,7 @@ namespace ControleAlunosMVC.Controllers
                 return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
 
-            var obj = await _subjectsService.FindByIdAsync(id.Value);
+            var obj = await _studantSubjectService.FindByIdAsync(id.Value);
 
             if (obj == null)
             {
@@ -60,7 +74,7 @@ namespace ControleAlunosMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _subjectsService.RemoveAsync(id);
+            await _studantSubjectService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -71,23 +85,7 @@ namespace ControleAlunosMVC.Controllers
                 return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
             }
 
-            var obj = await _subjectsService.FindByIdAsync(id.Value);
-
-            if (obj == null)
-            {
-                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
-            }
-
-            return View(obj);
-        }
-
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
-            }
-            var obj = await _subjectsService.FindByIdAsync(id.Value);
+            var obj = await _studantSubjectService.FindByIdAsync(id.Value);
 
             if (obj == null)
             {
@@ -99,19 +97,22 @@ namespace ControleAlunosMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Subject subject)
+        public async Task<IActionResult> Edit(int? id, StudentSubject obj)
         {
             if (!ModelState.IsValid)
             {
-                return View(subject);
+                var students = await _studentService.FindAllAsync();
+                var subjects = await _subjectsService.FindAllAsync();
+                var viewModel = new StudentSubjectViewModel { Students = students, Subjects = subjects };
+                return View(viewModel);
             }
-            if (id != subject.Id)
+            if (id != obj.Id)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id não compatíveis" });
+                return RedirectToAction(nameof(Error), new { message = "Id não compatível" });
             }
             try
             {
-                await _subjectsService.UpdateAsync(subject);
+                await _studantSubjectService.UpdateAsync(obj);
                 return RedirectToAction(nameof(Index));
             }
             catch (ApplicationException e)

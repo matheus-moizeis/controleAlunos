@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControleAlunosMVC.Migrations
 {
     [DbContext(typeof(ControleAlunosMVCContext))]
-    [Migration("20230402205202_configMatricula")]
-    partial class configMatricula
+    [Migration("20230403000502_ajusteBanco")]
+    partial class ajusteBanco
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -113,7 +113,6 @@ namespace ControleAlunosMVC.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Obersavation")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentId", "SubjectId");

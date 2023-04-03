@@ -95,6 +95,26 @@ namespace ControleAlunosMVC.Controllers
             return View(obj);
         }
 
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não fornecido" });
+            }
+            var obj = await _scoreService.FindByIdAsync(id.Value);
+
+            if (obj == null)
+            {
+                return RedirectToAction(nameof(Error), new { message = "Id não encontrado" });
+            }
+
+            List<Student> students = await _studentService.FindAllAsync();
+            List<Subject> subjects = await _subjectsService.FindAllAsync();
+            var viewModel = new ScoreFormViewModel { Score = obj, Students = students, Subjects = subjects };
+
+            return View(viewModel);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int? id, Score score)
@@ -103,12 +123,12 @@ namespace ControleAlunosMVC.Controllers
             {
                 var students = await _studentService.FindAllAsync();
                 var subjects = await _subjectsService.FindAllAsync();
-                var viewModel = new ScoreFormViewModel { Students = students, Subjects = subjects };
+                var viewModel = new ScoreFormViewModel { Score = score, Students = students, Subjects = subjects };
                 return View(viewModel);
             }
             if (id != score.Id)
             {
-                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
+                return RedirectToAction(nameof(Error), new { message = "Id não compatível" });
             }
             try
             {

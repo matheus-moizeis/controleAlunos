@@ -1,5 +1,46 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model ControleAlunosMVC.Models.ViewModels.ScoreFormViewModel
 @{
+    ViewData["Title"] = "Editar Nota";
 }
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+
+<div class="form-group row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="Score.Id" />
+            <div class="form-group">
+                <label asp-for="Score.StudentScore" class="form-label"></label>
+                <input asp-for="Score.StudentScore" class="form-control" />
+                <span asp-validation-for="Score.StudentScore" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Score.DateScore" class="control-label"></label>
+                <input asp-for="Score.DateScore" class="form-control" />
+                <span asp-validation-for="Score.StudentScore" class="text-danger"></span>
+
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="Score.StudentId" class="control-label"></label>
+                <select asp-for="Score.StudentId" asp-items="@(new SelectList(Model.Students,"Id","Name"))" class="form-control"></select>
+                <span asp-validation-for="Score.StudentId" class="text-danger"></span>
+
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Score.SubjectId" class="control-label"></label>
+                <select asp-for="Score.SubjectId" asp-items="@(new SelectList(Model.Subjects,"Id","Name"))" class="form-control"></select>
+                <span asp-validation-for="Score.SubjectId" class="text-danger"></span>
+
+            </div>
+
+            <div class="form-group">
+                <br />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
